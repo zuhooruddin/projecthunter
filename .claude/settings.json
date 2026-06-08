@@ -3,7 +3,8 @@
     "allow": [
       "Bash(node -e ' *)",
       "Bash(curl -s \"http://localhost:3000/api/stats\" -o /dev/null -w \"stats: HTTP %{http_code}\\\\n\" --max-time 30)",
-      "Bash(curl -s \"http://localhost:3000/api/projects?pageSize=5\" -o /dev/null -w \"projects: HTTP %{http_code}\\\\n\" --max-time 30)"
+      "Bash(curl -s \"http://localhost:3000/api/projects?pageSize=5\" -o /dev/null -w \"projects: HTTP %{http_code}\\\\n\" --max-time 30)",
+      "Bash(grep -n 'prisma\\\\.\\\\|$connect\\\\|$queryRaw' lib/runScrapers.ts lib/scheduler.ts lib/coverLetterGenerator.ts lib/emailSender.ts)"
     ]
   }
 }
