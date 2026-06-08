@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { runAllScrapers, runSingleScraper, type ScraperKey } from "@/lib/runScrapers";
 
+export const dynamic = "force-dynamic";
+
 const VALID_KEYS: ScraperKey[] = ["rss", "reddit", "hackernews", "devto"];
 
 export async function POST(req: NextRequest) {
