@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id           String        @id @default(cuid())
+  title        String
+  description  String?
+  url          String        @unique
+  source       String
+  company      String?
+  country      String?
+  role         String? // "Full Stack Developer" | "Web Developer" | "Mobile Developer"
+  techStack    String[]      @default([])
+  contactEmail String?
+  contactUrl   String?
+  foundAt      DateTime      @default(now())
+  status       String        @default("new") // new, saved, applied, replied, rejected
+  isApplied    Boolean       @default(false)
+  appliedAt    DateTime?
+  notes        String?
+  applications Application[]
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  company   String?
+  website   String   @unique
+  email     String?
+  phone     String?
+  linkedIn  String?
+  country   String?
+  source    String?
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model Application {
+  id          String    @id @default(cuid())
+  projectId   String
+  coverLetter String
+  sentAt      DateTime  @default(now())
+  method      String // "email", "form", "manual"
+  status      String    @default("sent")
+  replyAt     DateTime?
+  notes       String?
+  project     Project   @relation(fields: [projectId], references: [id])
+}
+
+model ScrapeLog {
+  id       String   @id @default(cuid())
+  source   String
+  found    Int
+  newItems Int
+  ranAt    DateTime @default(now())
+  error    String?
+}
+
+model GeoCache {
+  domain    String   @id
+  country   String?
+  allowed   Boolean
+  checkedAt DateTime @default(now())
+}
+
+model Settings {
+  id        String   @id @default("singleton")
+  data      String   @default("{}") // JSON-encoded settings blob
+  updatedAt DateTime @updatedAt
+}
