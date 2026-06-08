@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { extractContact } from "@/lib/scrapers/contactExtractor";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const url = body?.url as string | undefined;
